@@ -55,7 +55,7 @@ module "myvpc3" {
 module "ec21" {
   source = "./tfmodules/ec2"
   region = "us-west-2"
-  name = "myec21"
+  name = "${terraform.workspace}"
   ami_id = "ami-0ad99772"
   key_pair = "demopair"
 
