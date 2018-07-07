@@ -64,10 +64,10 @@ module "ec21" {
 }
 module "ec22" {
   source = "./tfmodules/ec2"
-  region = "us-west-2"
+  region = "us-east-1"
   name = "myec22"
-  ami_id = "ami-0ad99772"
-  key_pair = "demopair"
+  ami_id = "ami-cfe4b2b0"
+  key_pair = "virginia_pair"
 
   vpc_id = "${module.myvpc2.vpc_id}"
   subnet_id = "${module.myvpc2.subnet_id}"
