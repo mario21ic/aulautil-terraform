@@ -8,10 +8,16 @@ resource "aws_instance" "ec2_demo" {
   key_name = "${var.key_pair}"
   vpc_security_group_ids = ["${aws_security_group.my_sg.id}"]
   subnet_id = "${var.subnet_id}"
+
+  count = 3
+  tags {
+    Name = "${var.name}_${count.index}"
+  }
 }
 
 resource "aws_security_group" "my_sg" {
   name        = "my_sg_${var.name}"
+
   description = "Allow traffic"
   vpc_id      = "${var.vpc_id}"
 
