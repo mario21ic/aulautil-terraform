@@ -52,36 +52,33 @@ module "myvpc3" {
   name = "myvpc3"
 }
 
-resource "aws_instance" "ec2_demo" {
-  ami = "${var.ami_id}"
-  instance_type = "t2.micro"
-  key_name = "${var.key_pair}"
-  vpc_security_group_ids = ["${aws_security_group.my_sg.id}"]
+module "ec21" {
+  source = "./tfmodules/ec2"
+  region = "us-west-2"
+  name = "myec21"
+  ami_id = "ami-0ad99772"
+  key_pair = "demopair"
+
+  vpc_id = "${module.myvpc.vpc_id}"
   subnet_id = "${module.myvpc.subnet_id}"
 }
+module "ec22" {
+  source = "./tfmodules/ec2"
+  region = "us-west-2"
+  name = "myec22"
+  ami_id = "ami-0ad99772"
+  key_pair = "demopair"
 
-resource "aws_security_group" "my_sg" {
-  name        = "my_sg"
-  description = "Allow traffic"
-  vpc_id      = "${module.myvpc.vpc_id}"
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
-  }
+  vpc_id = "${module.myvpc2.vpc_id}"
+  subnet_id = "${module.myvpc2.subnet_id}"
 }
+module "ec23" {
+  source = "./tfmodules/ec2"
+  region = "us-west-2"
+  name = "myec23"
+  ami_id = "ami-0ad99772"
+  key_pair = "demopair"
 
+  vpc_id = "${module.myvpc3.vpc_id}"
+  subnet_id = "${module.myvpc3.subnet_id}"
+}
