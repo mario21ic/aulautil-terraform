@@ -9,7 +9,7 @@ resource "aws_instance" "ec2_demo" {
   vpc_security_group_ids = ["${aws_security_group.my_sg.id}"]
   subnet_id = "${var.subnet_id}"
 
-  count = 3
+  count = "${terraform.workspace == "prod" ? 3 : 1}"
   tags {
     Name = "${var.name}_${count.index}"
   }
